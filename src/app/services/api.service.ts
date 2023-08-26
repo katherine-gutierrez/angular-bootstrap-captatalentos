@@ -1,4 +1,4 @@
-import { Injectable, computed, effect, inject, signal } from '@angular/core';
+import { Injectable, WritableSignal, computed, effect, inject, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, ReplaySubject } from 'rxjs';
 
@@ -15,6 +15,13 @@ export class ApiService {
   foo = signal(10)
   obtener = computed(()=> this.foo())
   // effect_foo = effect(()=> { console.log(`The value of "${this.foo()}" has changed`);  this.foo.set(this.foo()) } );
+  arrayPeoples:WritableSignal<{
+    id: number,
+    name: string,
+    lastname: string,
+    phone: string
+  }[]> = signal([])
+  getArrayPeoples_computed = computed(()=> this.arrayPeoples())
 
   constructor( private http: HttpClient ) { 
   }

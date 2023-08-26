@@ -8,7 +8,12 @@ import { ApiService } from 'src/app/services/api.service';
 })
 export class PeopleComponent {
 
-  peoples: any[] = []
+  peoples: {
+    id: number,
+    name: string,
+    lastname: string,
+    phone: string
+  }[] = []
   peoplesInicio: any[] = []
   selectedPeople: number = 0;
 
@@ -30,9 +35,13 @@ export class PeopleComponent {
     });
   }
 
+  //se agrega el nuevo elemento a la lista
   valueResponse(respuesta: any) {
     let newPeople = JSON.parse(respuesta)
-    this.peoples.push(newPeople) 
+    newPeople.id= this.peoples.length + 1
+    // this.peoples.push(newPeople) 
+
+    this.apiService.arrayPeoples.mutate(list => list.push(newPeople));
    }
 
   valueResponseUpdate(respuesta: any) {
@@ -73,6 +82,8 @@ export class PeopleComponent {
           this.peoplesInicio.push( obj)
           
         }
+
+        this.apiService.arrayPeoples.set( this.peoples );
     });
 
   }

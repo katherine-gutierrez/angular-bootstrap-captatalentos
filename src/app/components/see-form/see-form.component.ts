@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, computed } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { ApiService } from 'src/app/services/api.service';
 
@@ -26,14 +26,50 @@ export class SeeFormComponent {
   constructor(private apiService: ApiService) { 
   }
 
-  ngOnInit() {
+  
+  ngOnInit() { 
+  
     this.apiService.getID().subscribe((value: any) => {
-      this.selectedPeople = value; 
 
-      if(this.selectedPeople){
+      this.selectedPeople = value; 
+      
+      //Visualizacion local de la lista de personas
+      this.apiService.arrayPeoples().forEach(element => {
+        let i = 0
+
+        if( element.id == this.selectedPeople ){
+
+          this.seeForm = new FormGroup({
+            name: new FormControl( element.name),
+            lastname: new FormControl(element.lastname),
+            phone: new FormControl(element.phone)
+          });
+
+        }
+        
+      });
+
+  });
+    
+  }
+
+
+  /*
+  subscripcion al observable de api update. Script comentado porque la api no realiza la actualizacion
+  */
+/*   ngOnInit() { 
+  
+    this.apiService.getID().subscribe((value: any) => {
+
+      this.selectedPeople = value; 
+      console.log( "this.selectedPeople" , this.selectedPeople )
+
+      if(this.selectedPeople && this.selectedPeople<=10 ){
+
+        console.log( this.apiService.arrayPeoples() , 'get')
 
         this.apiService.getPeople(this.selectedPeople).subscribe((data:any) => {
-
+          
           const element = data;
   
           let array: string[] = element.name.split(' ')
@@ -53,10 +89,27 @@ export class SeeFormComponent {
      
       });
 
+    }else if(this.selectedPeople && this.selectedPeople>10){
+      this.apiService.arrayPeoples().forEach(element => {
+        let i = 0
+
+        if( element.id == this.selectedPeople ){
+
+          this.seeForm = new FormGroup({
+            name: new FormControl( element.name),
+            lastname: new FormControl(element.lastname),
+            phone: new FormControl(element.phone)
+          });
+
+          
+        }
+        
+      });
+
     }
 
   });
     
-  }
+  } */
 
-}
+}//

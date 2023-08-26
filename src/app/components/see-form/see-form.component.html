@@ -10,15 +10,15 @@
             <form [formGroup]="seeForm">
                 <div class="mb-3">
                   <label for="name" class="col-form-label">Nombre:</label>
-                  <input type="text" class="form-control" id="name" [value]="people.name" disabled readonly>
+                  <input type="text" class="form-control" id="name" formControlName="name"  readonly>
                 </div>
                 <div class="mb-3">
                   <label for="lastname" class="col-form-label">Apellido:</label>
-                  <input type="text" class="form-control" id="lastname" [value]="people.lastname" disabled readonly>
+                  <input type="text" class="form-control" id="lastname" formControlName="lastname" readonly>
                 </div>
                 <div class="mb-3">
                     <label for="phone" class="col-form-label">Teléfono:</label>
-                    <input type="text" class="form-control" id="phone" [value]="people.phone" disabled readonly>
+                    <input type="text" class="form-control" id="phone" formControlName="phone" readonly>
                 </div>
               </form>
 

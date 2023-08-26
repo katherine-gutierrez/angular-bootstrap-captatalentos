@@ -29,6 +29,11 @@ export class CreateFormComponent {
   
         this.pushToList.emit( JSON.stringify(resp) );
         Swal.fire('Registro exitoso','', 'success'); 
+        this.form = new FormGroup({
+          name: new FormControl(''),
+          lastname: new FormControl(''),
+          phone: new FormControl('')
+        });
 
       }, (error) => {
         Swal.fire('Error','', 'error');

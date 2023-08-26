@@ -49,7 +49,7 @@ export class EditFormComponent {
    }
   
   }
-
+  // this.apiService.getID().subscribe((value: any) => {
   ngOnInit() {
 
     this.apiService.getPeoples().subscribe((data:any) => data.length );
@@ -57,7 +57,7 @@ export class EditFormComponent {
     this.apiService.getID().subscribe((value: any) => {
       this.selectedPeople = value; 
 
-      if(this.selectedPeople && this.apiService.obtener() == 10 ){
+      if(this.selectedPeople && this.apiService.obtener() == 10 && this.selectedPeople<=10){
 
         this.apiService.getPeople(this.selectedPeople).subscribe((data:any) => {
 
