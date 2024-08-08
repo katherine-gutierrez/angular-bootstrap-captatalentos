@@ -2,6 +2,7 @@ import { Component, EventEmitter, Output, effect } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import swal from'sweetalert2';
 import { ApiService } from 'src/app/services/api.service';
+import { JsonPipe } from '@angular/common';
 
 @Component({
   selector: 'app-edit-form',
@@ -39,6 +40,7 @@ export class EditFormComponent {
 
       this.apiService.UpdatePeople(this.selectedPeople, this.editForm.value).subscribe((resp:any) => {
           this.updateToList.emit( JSON.stringify(resp) );
+          // localStorage.setItem("dbPerson",JSON.stringify(resp) )
           swal.fire('Actualizacion exitosa','', 'success'); 
 
       }, (error) => {
@@ -49,74 +51,31 @@ export class EditFormComponent {
    }
   
   }
-  // this.apiService.getID().subscribe((value: any) => {
-  ngOnInit() {
 
-    this.apiService.getPeoples().subscribe((data:any) => data.length );
-
+  ngOnInit() { 
+  
     this.apiService.getID().subscribe((value: any) => {
+
       this.selectedPeople = value; 
+      
+      //Visualizacion local de la lista de personas
+      this.apiService.arrayPeoples().forEach(element => {
+        let i = 0
 
-      if(this.selectedPeople && this.apiService.obtener() == 10 && this.selectedPeople<=10){
+        if( element.id == this.selectedPeople ){
 
-        this.apiService.getPeople(this.selectedPeople).subscribe((data:any) => {
+          this.editForm = new FormGroup({
+            name: new FormControl( element.name),
+            lastname: new FormControl(element.lastname),
+            phone: new FormControl(element.phone)
+          });
 
-          const element = data;
-  
-          let array: string[] = element.name.split(' ')
-  
-            this.people =  {
-              id: element.id,
-              name: array[0],
-              lastname: array[1],
-              phone: element.phone
-            }
-
-            this.editForm = new FormGroup({
-              name: new FormControl( this.people.name),
-              lastname: new FormControl( this.people.lastname),
-              phone: new FormControl( this.people.phone)
-            });
-     
-      }, (error) => {
-        console.log(error.message);
+        }
+        
       });
 
-    }
   });
     
   }
-/*  ngOnInit() {
-    this.apiService.getID().subscribe((value: any) => {
-      this.selectedPeople = value; 
-
-      if(this.selectedPeople){
-
-        this.apiService.getPeople(this.selectedPeople).subscribe((data:any) => {
-
-          const element = data;
-  
-          let array: string[] = element.name.split(' ')
-  
-            this.people =  {
-              id: element.id,
-              name: array[0],
-              lastname: array[1],
-              phone: element.phone
-            }
-
-            this.editForm = new FormGroup({
-              name: new FormControl( this.people.name),
-              lastname: new FormControl( this.people.lastname),
-              phone: new FormControl( this.people.phone)
-            });
-     
-      });
-
-    }
-
-  });
-    
-  } */
 
 }

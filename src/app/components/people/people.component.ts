@@ -16,9 +16,9 @@ export class PeopleComponent {
   }[] = []
   peoplesInicio: any[] = []
   selectedPeople: number = 0;
+  
 
   constructor(private apiService: ApiService) { 
-
   }
    
   getID(id:number){
@@ -39,9 +39,8 @@ export class PeopleComponent {
   valueResponse(respuesta: any) {
     let newPeople = JSON.parse(respuesta)
     newPeople.id= this.peoples.length + 1
-    // this.peoples.push(newPeople) 
-
-    this.apiService.arrayPeoples.mutate(list => list.push(newPeople));
+    this.peoples.push(newPeople)
+    localStorage.setItem('persons', JSON.stringify(this.peoples))
    }
 
   valueResponseUpdate(respuesta: any) {
@@ -50,16 +49,18 @@ export class PeopleComponent {
     //Encuentra el índice del elemento del Array actualizado en el modal
     const index = this.peoplesInicio.findIndex((v) => v.id === upPeople.id);
 
-    //Actualiza el elemento en la lista
+    //Actualiza el elemento en el listado
     this.peoples.forEach(listOriginal => {
         if(listOriginal.id == upPeople.id){
           this.peoples[index] = upPeople
         }
     });
+
+    localStorage.setItem('persons' , JSON.stringify(this.peoples))
    }
 
   ngOnInit() {
-    
+ 
     this.apiService.getPeoples().subscribe((data:any) => {
 
       for (let i = 0; i < data.length; i++) {
@@ -80,12 +81,24 @@ export class PeopleComponent {
 
           this.peoples.push( obj)
           this.peoplesInicio.push( obj)
-          
         }
 
+        this.Persons()
         this.apiService.arrayPeoples.set( this.peoples );
+       
     });
 
+  }
+
+  Persons(){
+  const ls = localStorage.getItem('persons')
+    //data cargada
+    if( ls == null ){
+  //localStorage es vacio
+     const arrNew=[]
+     arrNew.push( this.peoples )
+     localStorage.setItem('persons', JSON.stringify(arrNew) )
+   }
   }
 
 }

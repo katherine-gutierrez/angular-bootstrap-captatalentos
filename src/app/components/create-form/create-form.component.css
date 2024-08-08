@@ -1,0 +1,12 @@
+.error{
+    color: red;
+    font-size: 14px;
+}
+h1.modal-title{
+    margin: auto;
+    color: #1976d2;
+}
+
+.modal-header .btn-close{ 
+    margin: 0;
+}
