@@ -90,6 +90,17 @@ export class PeopleComponent {
 
   }
 
+  testlocalStorage(LSValue:any){
+    if (typeof localStorage !== 'undefined') {
+      // El localStorage está disponible
+      localStorage.setItem('persons', LSValue);
+    } else {
+      // El localStorage no está disponible
+      // Implementar una estrategia de almacenamiento alternativa
+      console.error('localStorage no está disponible');
+    }
+  }
+
   Persons(){
   const ls = localStorage.getItem('persons')
     //data cargada
@@ -97,7 +108,8 @@ export class PeopleComponent {
   //localStorage es vacio
      const arrNew=[]
      arrNew.push( this.peoples )
-     localStorage.setItem('persons', JSON.stringify(arrNew) )
+     this.testlocalStorage(JSON.stringify(arrNew))
+    //  localStorage.setItem('persons', JSON.stringify(arrNew) )
    }
   }
 
